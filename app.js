@@ -19,6 +19,8 @@ var expressValidator = require('express-validator');
 var sass = require('node-sass-middleware');
 var multer = require('multer');
 var upload = multer({ dest: path.join(__dirname, 'uploads') });
+var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -223,8 +225,7 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), function() {
-  console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
+app.listen(PORT, IP_ADDRESS, function () {
+    console.log("Express server listening on port %d in %s mode", PORT, app.settings.env);
 });
-
 module.exports = app;
